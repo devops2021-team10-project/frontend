@@ -16,11 +16,11 @@ export class AuthService {
       username,
       password,
     };
-    return this.httpClient.post('/auth/regular-user/login', user);
+    return this.httpClient.post('http://localhost:5001/user-service-api/auth/regular-user/login', user);
   }
 
   getAuthUser(): Observable<any> {
-    return this.httpClient.get('/auth/regular-user/get-auth');
+    return this.httpClient.get('http://localhost:5001/user-service-api/auth/regular-user/find-by-jwt-header');
   }
 
   getCurrentUser(): User | undefined {

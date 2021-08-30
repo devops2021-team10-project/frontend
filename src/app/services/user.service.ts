@@ -12,6 +12,6 @@ export class UserService {
   }
 
   register(userToCreate: CreateUser): Observable<any> {
-    return this.httpClient.post('/api/users/create', userToCreate);
+    return this.httpClient.post('http://localhost:5001/user-service-api/user/regular-user', userToCreate);
   }
 }
