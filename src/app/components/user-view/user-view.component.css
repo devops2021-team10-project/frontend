@@ -1,0 +1,40 @@
+.vertical-center {
+  min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+  margin: 0;
+  display: flex;
+}
+
+.submit-btn {
+  margin-top: 0.4em;
+}
+
+
+.basicDataHolder {
+  padding: 2em;
+  width: 40em;
+  text-align: left;
+}
+
+.userData {
+  margin: 0;
+}
+
+.userActions {
+  /*  not needed styles to reflect it */
+  padding: 10px;
+  width: 40em;
+  /* needed styles below */
+  display: flex;
+  justify-content: left;
+}
+
+.userAction {
+  margin-right: 2em;
+}
+
+.userPosts {
+  padding: 10px;
+  width: 40em;
+}
+

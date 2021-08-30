@@ -8,27 +8,27 @@
   >
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a
-        mat-list-item
-        (click)="router.navigate(['login'], { relativeTo: activeRoute })"
-        >Login</a
-      >
-      <a
-        mat-list-item
-        (click)="router.navigate(['register'], { relativeTo: activeRoute })"
-      >Register</a
-      >
-      <a
-        mat-list-item
-        (click)="router.navigate(['update-user'], { relativeTo: activeRoute })"
-        >Account Settings</a
-      >
-      <a
-        mat-list-item
-        (click)="router.navigate(['repos'], { relativeTo: activeRoute })"
-        >Repositories</a
-      >
-      <a mat-list-item (click)="logout()">Logout</a>
+      <a mat-list-item (click)="router.navigate(['feed'], { relativeTo: activeRoute })">
+        Feed
+      </a>
+      <a mat-list-item (click)="myself()">
+        My profile
+      </a>
+      <a mat-list-item (click)="router.navigate(['user-search'], { relativeTo: activeRoute })">
+        Profile search
+      </a>
+      <a mat-list-item (click)="router.navigate(['update-user'], { relativeTo: activeRoute })">
+        Account Settings
+      </a>
+      <a mat-list-item (click)="router.navigate(['register'], { relativeTo: activeRoute })">
+        Register
+      </a>
+      <a mat-list-item (click)="router.navigate(['login'], { relativeTo: activeRoute })">
+        Login
+      </a>
+      <a mat-list-item (click)="logout()">
+        Logout
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 

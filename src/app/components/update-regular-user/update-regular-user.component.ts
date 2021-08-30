@@ -84,6 +84,7 @@ export class UpdateRegularUserComponent implements OnInit {
         .subscribe(
           (response: User) => {
             this.tService.success('', 'User is updated successfully');
+            this.authService.getAndSaveAuthenticatedUser();
           },
           err => {
             console.log(err);

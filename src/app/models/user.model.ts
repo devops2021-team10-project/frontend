@@ -15,6 +15,9 @@ export class User {
     public isPrivate: boolean,
     public isTaggable: boolean,
 
+    public mutedProfiles: Array<string>,
+    public blockedProfiles: Array<string>,
+
     public isBlocked: boolean,
     public createdAt: string,
     public deletedAt: string,

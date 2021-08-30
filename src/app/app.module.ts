@@ -15,6 +15,9 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { LoginComponent } from './components/login/login.component';
 import { RegisterRegularUserComponent } from './components/register-regular-user/register-regular-user.component';
 import { UpdateRegularUserComponent } from './components/update-regular-user/update-regular-user.component';
+import { UserViewComponent } from './components/user-view/user-view.component';
+import { FeedComponent } from './components/feed/feed.component';
+import { UserSearchComponent } from './components/user-search/user-search.component';
 
 
 /* Material design imports */
@@ -55,6 +58,9 @@ import { DatePipe } from '@angular/common';
     LoginComponent,
     RegisterRegularUserComponent,
     UpdateRegularUserComponent,
+    UserViewComponent,
+    FeedComponent,
+    UserSearchComponent,
 
   ],
   imports: [

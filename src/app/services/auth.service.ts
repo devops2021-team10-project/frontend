@@ -23,6 +23,18 @@ export class AuthService {
     return this.httpClient.get('http://localhost:5001/user-service-api/auth/regular-user/find-by-jwt-header');
   }
 
+  getAndSaveAuthenticatedUser(): void {
+    this.getAuthUser()
+      .subscribe(
+        (response: User) => {
+          sessionStorage.setItem('authUser', JSON.stringify(response));
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
   getCurrentUser(): User | undefined {
     const userJSON = sessionStorage.getItem('authUser');
     if (userJSON) {
