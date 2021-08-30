@@ -40,4 +40,9 @@ export class AuthService {
     }
     return !jwtHelper.isTokenExpired(token);
   }
+
+  logout(): void {
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('authUser');
+  }
 }

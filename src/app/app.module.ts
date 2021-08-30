@@ -11,9 +11,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/main/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NavigationComponent } from './components/navigation/navigation.component'; 
+import { NavigationComponent } from './components/navigation/navigation.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterRegularUserComponent } from './components/register-regular-user/register-regular-user.component';
+import { UpdateRegularUserComponent } from './components/update-regular-user/update-regular-user.component';
 
 
 /* Material design imports */
@@ -40,6 +41,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
@@ -52,7 +54,8 @@ import { DatePipe } from '@angular/common';
     NavigationComponent,
     LoginComponent,
     RegisterRegularUserComponent,
-    
+    UpdateRegularUserComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,7 @@ import { DatePipe } from '@angular/common';
     NgbModule,
 
     BrowserAnimationsModule,
-    ToastrModule.forRoot(), 
+    ToastrModule.forRoot(),
 
     BrowserAnimationsModule,
     MatFormFieldModule,
@@ -89,7 +92,8 @@ import { DatePipe } from '@angular/common';
     MatAutocompleteModule,
     MatRadioModule,
     MatExpansionModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSlideToggleModule
   ],
   providers: [
     {

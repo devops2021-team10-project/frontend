@@ -44,6 +44,7 @@ export class NavigationComponent implements OnInit {
   logout(): void {
     sessionStorage.removeItem('accessToken');
     sessionStorage.removeItem('authUser');
+    this.router.navigateByUrl('login');
   }
 
 }
