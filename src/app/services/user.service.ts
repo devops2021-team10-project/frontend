@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {CreateUser} from "../models/create-user.model";
 import {UpdateUser} from "../models/update-user.model";
-import {observableToBeFn} from "rxjs/internal/testing/TestScheduler";
 import {PasswordReset} from "../models/pasword-reset.model";
 
 @Injectable({
@@ -15,7 +14,11 @@ export class UserService {
   }
 
   getPublicUserByUsername(username: string): Observable<any> {
-    return this.httpClient.get('http://localhost:5001/user-service-api/user/regular-user/public/' + username);
+    return this.httpClient.get('http://localhost:5001/user-service-api/user/regular-user/public/byUsername/' + username);
+  }
+
+  getPublicUserById(id: string): Observable<any> {
+    return this.httpClient.get('http://localhost:5001/user-service-api/user/regular-user/public/byId/' + id);
   }
 
   searchPublicUsersByName(name: string): Observable<any> {

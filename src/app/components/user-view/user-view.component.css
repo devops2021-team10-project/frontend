@@ -33,8 +33,13 @@
   margin-right: 2em;
 }
 
-.userPosts {
+.userPost {
+  margin-top: 2em;
   padding: 10px;
   width: 40em;
+}
+
+.postImage {
+  padding: 0.5em;
 }
 

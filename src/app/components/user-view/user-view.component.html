@@ -23,7 +23,11 @@
             <mat-slide-toggle [checked]="isBlocked" (change)="onBlockClick($event)"></mat-slide-toggle>
           </div>
         </mat-card>
-        <mat-card class="userPosts">
+        <mat-card class="userPost" *ngFor="let post of this.posts">
+          <h3 class="userData"><b>{{post.authorUser.username}}</b></h3>
+          <h5 class="userData">{{formatDate(post.createdAt)}}</h5>
+          <img class="postImage" mat-card-image [src]="post.imageInfo" alt="Photo">
+          <h4 class="userData">{{post.description}}</h4>
         </mat-card>
       </div>
     </div>
