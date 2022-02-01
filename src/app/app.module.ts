@@ -34,7 +34,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -67,7 +66,6 @@ import { DatePipe } from '@angular/common';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule,
 
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
@@ -87,7 +85,6 @@ import { DatePipe } from '@angular/common';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    NgbModule,
     MatTooltipModule,
     MatDialogModule,
     MatProgressSpinnerModule,

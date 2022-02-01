@@ -27,12 +27,19 @@ import format from 'date-fns/format';
 })
 export class UserViewComponent implements OnInit {
   // @ts-ignore
-  userObj: PublicUser = null;
+  userObj: PublicUser = {
+     id: "",
+     username: "",
+     name: "",
+     website: "",
+     biography: "",
+     isPrivate: false,
+  };
   // @ts-ignore
-  user: User = null;
-  // @ts-ignore
-  otherUserUsername: string = null;
+  usernameParam: string = null;
+  isMe: boolean = false;
 
+  // @ts-ignore
   isFollowed: boolean = false;
   isMuted: boolean = false;
   isBlocked: boolean = false;
@@ -51,15 +58,26 @@ export class UserViewComponent implements OnInit {
 
   ngOnInit(): void {
     // @ts-ignore
-    this.user = this.authService.getCurrentUser();
+
     this.activeRoute.params.subscribe(params => {
-      this.otherUserUsername = params['username'];
+      this.usernameParam = params['username'];
     });
 
-    this.userService.getPublicUserByUsername(this.otherUserUsername)
+    let authUser = this.authService.getCurrentUser();
+
+    if (authUser !== null && authUser?.username === this.usernameParam) {
+      this.isMe = true;
+    }
+
+    console.log("Param: " + this.usernameParam);
+
+    this.userService.getPublicUserByUsername(this.usernameParam)
       .subscribe(
-        (response: PublicUser) => {
+        async (response: PublicUser) =>  {
           this.userObj = response;
+
+          // Fetch posts after user is fetched
+          await this.getPosts();
         },
         err => {
           console.log(err);
@@ -67,8 +85,6 @@ export class UserViewComponent implements OnInit {
         }
       );
 
-    this.getPosts();
-    console.log(this.posts);
   }
 
   formatDate(timestamp: string): any {
@@ -111,7 +127,7 @@ export class UserViewComponent implements OnInit {
 
   async getPosts(): Promise<any> {
     this.postService
-      .getPostsByUserId(this.user.id)
+      .getPostsByUserId(this.userObj.id)
       .subscribe(
         async (response: Post[]) => {
           let postsWithUsers: PostWithUsers[] = [];
@@ -139,8 +155,6 @@ export class UserViewComponent implements OnInit {
           }
 
           this.posts = postsWithUsers;
-          console.log("ALL POSTS: ")
-          console.log(postsWithUsers);
         },
         err => {
           console.log(err);
@@ -166,8 +180,6 @@ export class UserViewComponent implements OnInit {
     for (let userId of userIds) {
       publicUsers.push(await this.makePublicUser(userId));
     }
-    console.log("PUBLIC USERSS:" );
-    console.log(publicUsers);
     return publicUsers;
   }
 

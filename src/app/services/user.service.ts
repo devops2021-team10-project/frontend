@@ -14,39 +14,39 @@ export class UserService {
   }
 
   getPublicUserByUsername(username: string): Observable<any> {
-    return this.httpClient.get('http://localhost:5001/user-service-api/user/regular-user/public/byUsername/' + username);
+    return this.httpClient.get('/api/v1/user/public/byUsername/' + username);
   }
 
   getPublicUserById(id: string): Observable<any> {
-    return this.httpClient.get('http://localhost:5001/user-service-api/user/regular-user/public/byId/' + id);
+    return this.httpClient.get('/api/v1/user/public/byId/' + id);
   }
 
   searchPublicUsersByName(name: string): Observable<any> {
-    return this.httpClient.get('http://localhost:5001/user-service-api/user/regular-user/public/search/' + name);
+    return this.httpClient.get('/api/v1/user/public/searchByName/' + name);
   }
 
   register(userToCreate: CreateUser): Observable<any> {
-    return this.httpClient.post('http://localhost:5001/user-service-api/user/regular-user', userToCreate);
+    return this.httpClient.post('/api/v1/user', userToCreate);
   }
 
   update(userToUpdate: UpdateUser, userId: string): Observable<any>  {
-    return this.httpClient.put('http://localhost:5001/user-service-api/user/regular-user/update/' + userId, userToUpdate);
+    return this.httpClient.put('/api/v1/user/basicData', userToUpdate);
   }
 
   resetPassword(passwordReset: PasswordReset): Observable<any> {
-    return this.httpClient.put('http://localhost:5001/user-service-api/user/regular-user/reset-password', passwordReset);
+    return this.httpClient.put('/api/v1/user/resetPassword', passwordReset);
   }
 
   changeIsPrivate(value: boolean): Observable<any> {
-    return this.httpClient.put('http://localhost:5001/user-service-api/user/regular-user/change-is-private',{isPrivate: value} );
+    return this.httpClient.put('/api/v1/user/changeIsPrivate',{isPrivate: value} );
   }
 
   changeIsTaggable(value: boolean): Observable<any> {
-    return this.httpClient.put('http://localhost:5001/user-service-api/user/regular-user/change-is-taggable',{isTaggable: value} );
+    return this.httpClient.put('/api/v1/user/changeIsTaggable',{isTaggable: value} );
   }
 
   changeIsMutedProfile(toMuteUserId: string, isMuted: boolean): Observable<any> {
-    return this.httpClient.put('http://localhost:5001/user-service-api/user/regular-user/change-muted-profile',
+    return this.httpClient.put('/api/v1/user/changeMutedProfile',
       {
         toMuteUserId,
         isMuted
@@ -54,7 +54,7 @@ export class UserService {
   }
 
   changeIsBlockedProfile(toBlockUserId: string, isBlocked: boolean): Observable<any> {
-    return this.httpClient.put('http://localhost:5001/user-service-api/user/regular-user/change-blocked-profile',
+    return this.httpClient.put('/api/v1/user/changeBlockedProfile',
       {
         toBlockUserId,
         isBlocked
@@ -62,6 +62,6 @@ export class UserService {
   }
 
   delete(): Observable<any> {
-    return this.httpClient.delete('http://localhost:5001/user-service-api/user/regular-user')
+    return this.httpClient.delete('/api/v1/user')
   }
 }

@@ -8,12 +8,11 @@
           <h4 class="userData">{{userObj.website}}</h4>
           <h4 class="userData">{{userObj.biography}}</h4>
         </mat-card>
-        <mat-card class="userActions" *ngIf="userObj && user && userObj.id !== user.id">
+        <mat-card class="userActions" *ngIf="!this.isMe" >
           <div class="userAction">
             <h4>Follow</h4>
             <mat-slide-toggle [checked]="isFollowed" (change)="onFollowClick($event)"></mat-slide-toggle>
           </div>
-
           <div class="userAction">
             <h4>Mute</h4>
             <mat-slide-toggle [checked]="isMuted" (change)="onMuteClick($event)"></mat-slide-toggle>

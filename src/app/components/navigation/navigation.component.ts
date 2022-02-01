@@ -56,7 +56,13 @@ export class NavigationComponent implements OnInit {
     // @ts-ignore
     this.selectedUserService.setUser(user);
     // @ts-ignore
-    this.router.navigateByUrl('users/' + user.username);
+
+    if (!user) {
+      this.router.navigateByUrl('users/error');
+    } else {
+      this.router.navigateByUrl('users/' + user.username);
+    }
+
   }
 
 }

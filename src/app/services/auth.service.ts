@@ -16,11 +16,11 @@ export class AuthService {
       username,
       password,
     };
-    return this.httpClient.post('http://localhost:5001/user-service-api/auth/regular-user/login', user);
+    return this.httpClient.post('/api/v1/auth/public/regularUserLogin', user);
   }
 
   getAuthUser(): Observable<any> {
-    return this.httpClient.get('http://localhost:5001/user-service-api/auth/regular-user/find-by-jwt-header');
+    return this.httpClient.get('/api/v1/auth/findByJWTHeader');
   }
 
   getAndSaveAuthenticatedUser(): void {
@@ -28,6 +28,8 @@ export class AuthService {
       .subscribe(
         (response: User) => {
           sessionStorage.setItem('authUser', JSON.stringify(response));
+          console.log("User set in storage:");
+          console.log(response);
         },
         err => {
           console.log(err);

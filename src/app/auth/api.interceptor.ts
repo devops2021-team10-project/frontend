@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class APIInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      const apiReq = req.clone({ url: `http://localhost:5000/api${req.url}` });
-      return next.handle(req);
+      const apiReq = req.clone({ url: `http://localhost:5000${req.url}` });
+      return next.handle(apiReq);
 
   }
 }
