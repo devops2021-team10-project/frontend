@@ -1,0 +1,217 @@
+<div>
+<div class="jumbotron vertical-top">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        <mat-card class="formHolder">
+          <h2>Update user data</h2>
+          <form (ngSubmit)="onUpdate()" [formGroup]="updateForm">
+            <mat-form-field class="formField">
+              <mat-label>Username</mat-label>
+              <label>
+                <input matInput type="text" formControlName="username" required />
+              </label>
+              <mat-error
+                *ngIf="updateForm.controls['username'].hasError('required')"
+              >
+                Username is required.
+              </mat-error>
+              <mat-error
+                *ngIf="updateForm.controls['username'].hasError('minlength')"
+              >
+                Username should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Email</mat-label>
+              <label>
+                <input matInput type="email" formControlName="email" required />
+              </label>
+              <mat-error
+                *ngIf="updateForm.controls['email'].hasError('required')"
+              >
+                Email is required.
+              </mat-error>
+              <mat-error
+                *ngIf="updateForm.controls['email'].hasError('email')"
+              >
+                Email is not formatted correctly.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Name</mat-label>
+              <label>
+                <input matInput type="text" formControlName="name" required/>
+              </label>
+              <mat-error
+                *ngIf="updateForm.controls['name'].hasError('required')"
+              >
+                Name is required.
+              </mat-error>
+              <mat-error
+                *ngIf="updateForm.controls['name'].hasError('minlength')"
+              >
+                Name should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Phone number</mat-label>
+              <label>
+                <input matInput type="text" formControlName="phoneNumber" required/>
+              </label>
+              <mat-error
+                *ngIf="updateForm.controls['phoneNumber'].hasError('required')"
+              >
+                Phone number is required.
+              </mat-error>
+              <mat-error
+                *ngIf="updateForm.controls['phoneNumber'].hasError('minlength')"
+              >
+                Phone number should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Gender</mat-label>
+              <mat-select [(value)]="gender" required>
+                <mat-option>None</mat-option>
+                <mat-option value="male">Male</mat-option>
+                <mat-option value="female">Female</mat-option>
+                <mat-option value="other">Other</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="formField">
+              <mat-label>Birthday</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="birthday" required>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Website</mat-label>
+              <label>
+                <input matInput type="text" formControlName="website" />
+              </label>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Biography</mat-label>
+              <label>
+                <input matInput type="text" formControlName="biography" />
+              </label>
+            </mat-form-field>
+
+            <button
+              class="submit-btn"
+              mat-raised-button
+              type="submit"
+              [disabled]="false"
+            >
+              Update user
+            </button>
+          </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="jumbotron vertical-top">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        <mat-card class="formHolder">
+          <h2>Change user password</h2>
+          <form (ngSubmit)="onChangePassword()" [formGroup]="resetPasswordForm">
+            <mat-form-field class="formField">
+              <mat-label>Old Password</mat-label>
+              <label>
+                <input matInput type="password" formControlName="oldPassword" required />
+              </label>
+              <mat-error
+                *ngIf="resetPasswordForm.controls['oldPassword'].hasError('required')"
+              >
+                Password is required.
+              </mat-error>
+              <mat-error
+                *ngIf="resetPasswordForm.controls['oldPassword'].hasError('minlength')"
+              >
+                Password should contain at least 5 characters
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="formField">
+              <mat-label>New Password</mat-label>
+              <label>
+                <input matInput type="password" formControlName="newPassword" required />
+              </label>
+              <mat-error
+                *ngIf="resetPasswordForm.controls['newPassword'].hasError('required')"
+              >
+                Password is required.
+              </mat-error>
+              <mat-error
+                *ngIf="resetPasswordForm.controls['newPassword'].hasError('minlength')"
+              >
+                Password should contain at least 5 characters
+              </mat-error>
+            </mat-form-field>
+            <button
+              class="submit-btn"
+              mat-raised-button
+              type="submit"
+              [disabled]="false"
+            >
+              Change password
+            </button>
+          </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="jumbotron vertical-top">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-4">
+          <mat-card class="formHolder">
+            <h2>Privacy settings</h2>
+
+            <h4>Is this profile private?</h4>
+            <mat-slide-toggle [checked]="isPrivate" (change)="toggleIsPrivate($event)">
+            </mat-slide-toggle>
+
+            <h4>Is this profile taggable by others?</h4>
+            <mat-slide-toggle [checked]="isTaggable" (change)="toggleIsTaggable($event)">
+            </mat-slide-toggle>
+
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jumbotron vertical-top">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-4">
+          <mat-card class="formHolder">
+            <h2>Deactivate account</h2>
+
+            <h4>There is no turning back</h4>
+            <button mat-raised-button color="warn" (click)="deactivate()">
+              Deactivate account
+            </button>
+
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

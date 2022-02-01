@@ -1,1 +1,137 @@
-<p>register-regular-user works!</p>
+<div class="jumbotron vertical-center">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        <mat-card class="formHolder">
+          <h2>Register</h2>
+          <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
+            <mat-form-field class="formField">
+              <mat-label>Username</mat-label>
+              <label>
+                <input matInput type="text" formControlName="username" required />
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['username'].hasError('required')"
+              >
+                Username is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['username'].hasError('minlength')"
+              >
+                Username should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Email</mat-label>
+              <label>
+                <input matInput type="email" formControlName="email" required />
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['email'].hasError('required')"
+              >
+                Email is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['email'].hasError('email')"
+              >
+                Email is not formatted correctly.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Password</mat-label>
+              <label>
+                <input matInput type="password" formControlName="password" required />
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['password'].hasError('required')"
+              >
+                Password is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['password'].hasError('minlength')"
+              >
+                Password should contain at least 5 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Name</mat-label>
+              <label>
+                <input matInput type="text" formControlName="name" required/>
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['name'].hasError('required')"
+              >
+                Name is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['name'].hasError('minlength')"
+              >
+                Name should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Phone number</mat-label>
+              <label>
+                <input matInput type="text" formControlName="phoneNumber" required/>
+              </label>
+              <mat-error
+                *ngIf="registerForm.controls['phoneNumber'].hasError('required')"
+              >
+                Phone number is required.
+              </mat-error>
+              <mat-error
+                *ngIf="registerForm.controls['phoneNumber'].hasError('minlength')"
+              >
+                Phone number should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Gender</mat-label>
+              <mat-select [(value)]="gender" required>
+                <mat-option>None</mat-option>
+                <mat-option value="male">Male</mat-option>
+                <mat-option value="female">Female</mat-option>
+                <mat-option value="other">Other</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="formField">
+              <mat-label>Birthday</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="birthday" required>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Website</mat-label>
+              <label>
+                <input matInput type="text" formControlName="website" />
+              </label>
+            </mat-form-field>
+
+            <mat-form-field class="formField">
+              <mat-label>Biography</mat-label>
+              <label>
+                <input matInput type="text" formControlName="biography" />
+              </label>
+            </mat-form-field>
+
+            <button
+              class="submit-btn"
+              mat-raised-button
+              type="submit"
+              [disabled]="false"
+            >
+              Register user
+            </button>
+          </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

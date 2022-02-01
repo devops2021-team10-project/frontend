@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit {
             sessionStorage.setItem('accessToken', response.accessToken);
             console.log("Logged in!")
             this.tService.success('User successfully logged in.', 'Success');
-            this.getAuthenticatedUser();
-            this.router.navigate(['/login']);
+            this.authService.getAndSaveAuthenticatedUser();
+            this.router.navigate(['/feed']);
           },
           err => {
             if (err.status === 400) {
@@ -58,16 +58,5 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  getAuthenticatedUser(): void {
-    this.authService
-      .getAuthUser()
-      .subscribe(
-        (response: User) => {
-          sessionStorage.setItem('authUser', JSON.stringify(response));
-        },
-        err => {
-          console.log(err);
-        }
-      );
-  }
+
 }

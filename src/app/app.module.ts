@@ -11,9 +11,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/main/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NavigationComponent } from './components/navigation/navigation.component'; 
+import { NavigationComponent } from './components/navigation/navigation.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterRegularUserComponent } from './components/register-regular-user/register-regular-user.component';
+import { UpdateRegularUserComponent } from './components/update-regular-user/update-regular-user.component';
+import { UserViewComponent } from './components/user-view/user-view.component';
+import { FeedComponent } from './components/feed/feed.component';
+import { UserSearchComponent } from './components/user-search/user-search.component';
 
 
 /* Material design imports */
@@ -30,7 +34,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -40,6 +43,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
@@ -52,16 +56,19 @@ import { DatePipe } from '@angular/common';
     NavigationComponent,
     LoginComponent,
     RegisterRegularUserComponent,
-    
+    UpdateRegularUserComponent,
+    UserViewComponent,
+    FeedComponent,
+    UserSearchComponent,
+
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule,
 
     BrowserAnimationsModule,
-    ToastrModule.forRoot(), 
+    ToastrModule.forRoot(),
 
     BrowserAnimationsModule,
     MatFormFieldModule,
@@ -78,7 +85,6 @@ import { DatePipe } from '@angular/common';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    NgbModule,
     MatTooltipModule,
     MatDialogModule,
     MatProgressSpinnerModule,
@@ -89,7 +95,8 @@ import { DatePipe } from '@angular/common';
     MatAutocompleteModule,
     MatRadioModule,
     MatExpansionModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSlideToggleModule
   ],
   providers: [
     {

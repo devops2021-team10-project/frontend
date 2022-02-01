@@ -1,0 +1,34 @@
+<div class="jumbotron vertical-center">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        <mat-card class="basicDataHolder">
+          <h2 class="userData">{{userObj.name}}</h2>
+          <h4 class="userData"><b>{{userObj.username}}</b></h4>
+          <h4 class="userData">{{userObj.website}}</h4>
+          <h4 class="userData">{{userObj.biography}}</h4>
+        </mat-card>
+        <mat-card class="userActions" *ngIf="!this.isMe" >
+          <div class="userAction">
+            <h4>Follow</h4>
+            <mat-slide-toggle [checked]="isFollowed" (change)="onFollowClick($event)"></mat-slide-toggle>
+          </div>
+          <div class="userAction">
+            <h4>Mute</h4>
+            <mat-slide-toggle [checked]="isMuted" (change)="onMuteClick($event)"></mat-slide-toggle>
+          </div>
+          <div class="userAction">
+            <h4>Block</h4>
+            <mat-slide-toggle [checked]="isBlocked" (change)="onBlockClick($event)"></mat-slide-toggle>
+          </div>
+        </mat-card>
+        <mat-card class="userPost" *ngFor="let post of this.posts">
+          <h3 class="userData"><b>{{post.authorUser.username}}</b></h3>
+          <h5 class="userData">{{formatDate(post.createdAt)}}</h5>
+          <img class="postImage" mat-card-image [src]="post.imageInfo" alt="Photo">
+          <h4 class="userData">{{post.description}}</h4>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
