@@ -11,11 +11,11 @@ export class PostService {
   }
 
   getPostsByUserId(userId: string): Observable<any> {
-    return this.httpClient.get('http://localhost:5003/post-service-api/post/allByUser/' + userId);
+    return this.httpClient.get('/api/v1/post/allByUser/' + userId);
   }
 
   getPostImageById(postId: string): Observable<any> {
-    return this.httpClient.get('http://localhost:5003/post-service-api/post/' + postId + '/image', { responseType: 'blob' });
+    return this.httpClient.get('/api/v1/post/' + postId + '/image', { responseType: 'blob' });
   }
 
 }
