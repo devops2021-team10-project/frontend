@@ -41,10 +41,6 @@ export class UserService {
     return this.httpClient.put('/api/v1/user/changeIsPrivate',{isPrivate: value} );
   }
 
-  changeIsTaggable(value: boolean): Observable<any> {
-    return this.httpClient.put('/api/v1/user/changeIsTaggable',{isTaggable: value} );
-  }
-
   changeIsMutedProfile(toMuteUserId: string, isMuted: boolean): Observable<any> {
     return this.httpClient.put('/api/v1/user/changeMutedProfile',
       {

@@ -28,7 +28,6 @@ export class UpdateRegularUserComponent implements OnInit {
   resetPasswordForm: FormGroup = new FormGroup({});
 
   isPrivate: boolean = false;
-  isTaggable: boolean = false;
 
   constructor(
     private router: Router,
@@ -61,7 +60,6 @@ export class UpdateRegularUserComponent implements OnInit {
     });
 
     this.isPrivate = this.user.isPrivate;
-    this.isTaggable = this.user.isTaggable;
   }
 
   onUpdate(): void {
@@ -130,21 +128,6 @@ export class UpdateRegularUserComponent implements OnInit {
         err => {
           console.log(err);
           this.tService.warning(err.error.msg, 'Could not update user privacy');
-        }
-      );
-  }
-
-  toggleIsTaggable(event: MatSlideToggleChange): void {
-    this.userService
-      .changeIsTaggable(event.checked)
-      .subscribe(
-        () => {
-          this.tService.success('', 'User taggability is updated successfully');
-          this.isTaggable = event.checked;
-        },
-        err => {
-          console.log(err);
-          this.tService.warning(err.error.msg, 'Could not update user taggability');
         }
       );
   }

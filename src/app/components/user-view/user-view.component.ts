@@ -3,6 +3,8 @@ import {Component, OnInit} from '@angular/core';
 import {User} from "../../models/user.model";
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
+import {FollowingService} from "../../services/following.service";
+
 import {ActivatedRoute} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
@@ -38,6 +40,7 @@ export class UserViewComponent implements OnInit {
   // @ts-ignore
   usernameParam: string = null;
   isMe: boolean = false;
+  isLocked: boolean = false;
 
   // @ts-ignore
   isFollowed: boolean = false;
@@ -51,6 +54,7 @@ export class UserViewComponent implements OnInit {
     private userService: UserService,
     private postService: PostService,
     private authService: AuthService,
+    private followingService: FollowingService,
     public activeRoute: ActivatedRoute,
     private tService: ToastrService,
     private sanitizer: DomSanitizer
@@ -69,22 +73,32 @@ export class UserViewComponent implements OnInit {
       this.isMe = true;
     }
 
-    console.log("Param: " + this.usernameParam);
 
     this.userService.getPublicUserByUsername(this.usernameParam)
       .subscribe(
         async (response: PublicUser) =>  {
           this.userObj = response;
 
-          // Fetch posts after user is fetched
-          await this.getPosts();
+          if (!this.isMe && this.userObj.isPrivate) {
+            this.isLocked = true;
+          }
+
+          if (authUser && !this.isMe) {
+            this.isFollowed =  (this.userObj?.followingData?.isFollowing && this.userObj?.followingData.isApproved);
+            this.isMuted = this.userObj?.followingData?.isMuted;
+            this.isBlocked = this.userObj?.followingData?.isBlocked;
+          }
+
+          // Fetch posts after user is fetched and if user account is not locked
+          if (!this.isLocked) {
+            await this.getPosts();
+          }
         },
         err => {
           console.log(err);
           this.tService.warning(err.error.msg, 'Could fetch user');
         }
       );
-
   }
 
   formatDate(timestamp: string): any {
@@ -92,37 +106,70 @@ export class UserViewComponent implements OnInit {
   }
 
   onFollowClick(event: MatSlideToggleChange): void {
-    this.isFollowed = event.checked;
-
-    //TODO: connect to following service
+    if (event.checked) {
+      this.followingService
+        .follow(this.userObj.id)
+        .subscribe(
+          () => this.isFollowed = event.checked,
+          err => {
+          console.log(err);
+          this.tService.warning(err.error.msg, 'Could not follow user.');
+        });
+    } else {
+      this.followingService
+        .unfollow(this.userObj.id)
+        .subscribe(
+          () => this.isFollowed = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not unfollow user.');
+          });
+    }
   }
 
+
   onMuteClick(event: MatSlideToggleChange): void {
-    this.userService
-      .changeIsMutedProfile(this.userObj.id, event.checked)
-      .subscribe(
-        () => {
-          this.isMuted = event.checked;
-          },
-        err => {
-          console.log(err);
-          this.tService.warning(err.error.msg, 'Could not change muted status of user.');
-        }
-      );
+    if (event.checked) {
+      this.followingService
+        .mute(this.userObj.id)
+        .subscribe(
+          () => this.isMuted = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not mute user.');
+          });
+    } else {
+      this.followingService
+        .unmute(this.userObj.id)
+        .subscribe(
+          () => this.isMuted = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not unmute user.');
+          });
+    }
   }
 
   onBlockClick(event: MatSlideToggleChange): void {
-    this.userService
-      .changeIsBlockedProfile(this.userObj.id, event.checked)
-      .subscribe(
-        () => {
-          this.isBlocked = event.checked;
-          },
-        err => {
-          console.log(err);
-          this.tService.warning(err.error.msg, 'Could not change blocked status of user.');
-        }
-      );
+    if (event.checked) {
+      this.followingService
+        .block(this.userObj.id)
+        .subscribe(
+          () => this.isBlocked = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not block user.');
+          });
+    } else {
+      this.followingService
+        .unblock(this.userObj.id)
+        .subscribe(
+          () => this.isBlocked = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not unblock user.');
+          });
+    }
   }
 
   async getPosts(): Promise<any> {

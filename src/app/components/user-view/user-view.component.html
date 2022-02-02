@@ -22,6 +22,9 @@
             <mat-slide-toggle [checked]="isBlocked" (change)="onBlockClick($event)"></mat-slide-toggle>
           </div>
         </mat-card>
+        <mat-card class="userActions" *ngIf="this.isLocked" >
+          <h3>User account is private. Please follow user.</h3>
+        </mat-card>
         <mat-card class="userPost" *ngFor="let post of this.posts">
           <h3 class="userData"><b>{{post.authorUser.username}}</b></h3>
           <h5 class="userData">{{formatDate(post.createdAt)}}</h5>

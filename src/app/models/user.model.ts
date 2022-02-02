@@ -13,12 +13,8 @@ export class User {
     public biography: string,
 
     public isPrivate: boolean,
-    public isTaggable: boolean,
+    public followingData: null,
 
-    public mutedProfiles: Array<string>,
-    public blockedProfiles: Array<string>,
-
-    public isBlocked: boolean,
     public createdAt: string,
     public deletedAt: string,
   ) {}

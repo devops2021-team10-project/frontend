@@ -1,0 +1,24 @@
+<div>
+  <div class="jumbotron vertical-top">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-4">
+          <mat-card class="formHolder">
+            <h2>Create new post</h2>
+            <div>
+              <h3>Image file</h3>
+              <input type="file" (change)="onSelectFile($event)">
+            </div>
+            <br>
+            <div>
+              <h3>Description</h3>
+              <textarea [(ngModel)]="description" class="image-desc"> </textarea>
+            </div>
+            <br>
+            <button class="submit-btn" mat-raised-button (click)="onCreate()"> Post it </button>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
