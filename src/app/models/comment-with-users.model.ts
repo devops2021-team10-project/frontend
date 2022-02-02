@@ -4,7 +4,7 @@ export class CommentWithUsers {
   constructor(
     public id: string,
     public authorUser: PublicUser,
-    public comment: string,
+    public text: string,
     public createdAt: string,
     public deletedAt: string
   ) {}

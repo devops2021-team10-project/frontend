@@ -8,10 +8,11 @@ export class PostWithUsers {
     public imageInfo: any,
     public hashtags: string[],
     public description: string,
-    public likedBy: PublicUser[],
-    public dislikedBy: PublicUser[],
-    public savedBy: PublicUser[],
+    public isLiked: boolean,
+    public isDisliked: boolean,
     public comments: CommentWithUsers[],
+
+    public newComment: string,
 
     public createdAt: string,
     public deletedAt: string

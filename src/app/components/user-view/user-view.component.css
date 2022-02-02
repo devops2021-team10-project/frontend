@@ -43,3 +43,28 @@
   padding: 0.5em;
 }
 
+
+
+.userLikeDislike {
+  /*  not needed styles to reflect it */
+  padding: 10px;
+  width: 37em;
+  /* needed styles below */
+  display: flex;
+  justify-content: left;
+}
+
+.userComment {
+  margin-top: 2em;
+  padding: 10px;
+  width: 37em;
+}
+
+.commentInput {
+  width: 100%;
+  height: 5em;
+}
+
+.submit-btn {
+  margin-top: 0.4em;
+}

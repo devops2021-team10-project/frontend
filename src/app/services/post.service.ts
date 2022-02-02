@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {CreatePost} from "../models/create-post.model";
+import {ChangeIsLikedModel} from "../models/change-is-liked.model";
+import {ChangeIsDislikedModel} from "../models/change-is-disliked.model";
+import {CreateNewCommentModel} from "../models/create-new-comment.model";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +31,21 @@ export class PostService {
       "enctype": "multipart/form-data"
     });
     return this.httpClient.post('/api/v1/post', formData, { headers: httpHeaders });
+  }
+
+  createComment(data: CreateNewCommentModel): Observable<any> {
+    console.log(data);
+    return this.httpClient.post('/api/v1/post/createComment', data);
+  }
+
+  changeIsLiked(data: ChangeIsLikedModel): Observable<any> {
+    console.log(data);
+    return this.httpClient.put('/api/v1/post/changeIsLiked', data);
+  }
+
+  changeIsDisliked(data: ChangeIsDislikedModel): Observable<any> {
+    console.log(data);
+    return this.httpClient.put('/api/v1/post/changeIsDisliked', data);
   }
 
 }
