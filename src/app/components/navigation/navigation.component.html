@@ -17,6 +17,9 @@
       <a mat-list-item (click)="myself()">
         My profile
       </a>
+      <a mat-list-item (click)="router.navigate(['following-control'], { relativeTo: activeRoute })">
+        Following control
+      </a>
       <a mat-list-item (click)="router.navigate(['user-search'], { relativeTo: activeRoute })">
         Profile search
       </a>

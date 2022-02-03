@@ -19,6 +19,8 @@ import { UserViewComponent } from './components/user-view/user-view.component';
 import { FeedComponent } from './components/feed/feed.component';
 import { UserSearchComponent } from './components/user-search/user-search.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { FollowingControlComponent } from './components/following-control/following-control.component';
+
 
 
 /* Material design imports */
@@ -62,6 +64,7 @@ import { DatePipe } from '@angular/common';
     FeedComponent,
     UserSearchComponent,
     CreatePostComponent,
+    FollowingControlComponent,
 
   ],
   imports: [

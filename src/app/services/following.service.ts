@@ -10,6 +10,16 @@ export class FollowingService {
   constructor (private httpClient: HttpClient){
   }
 
+  findAllWhoIFollow(): Observable<any> {
+    return this.httpClient.get('/api/v1/following/whoIFollow');
+  }
+  findAllWhoFollowMe(): Observable<any> {
+    return this.httpClient.get('/api/v1/following/whoFollowMe');
+  }
+  findAllMyReceivedFollowRequests(): Observable<any> {
+    return this.httpClient.get('/api/v1/following/requests');
+  }
+
   follow(userId: string): Observable<any> {
     return this.httpClient.put('/api/v1/following/follow/' + userId, null);
   }
