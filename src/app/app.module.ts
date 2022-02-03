@@ -18,6 +18,9 @@ import { UpdateRegularUserComponent } from './components/update-regular-user/upd
 import { UserViewComponent } from './components/user-view/user-view.component';
 import { FeedComponent } from './components/feed/feed.component';
 import { UserSearchComponent } from './components/user-search/user-search.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
+import { FollowingControlComponent } from './components/following-control/following-control.component';
+
 
 
 /* Material design imports */
@@ -43,7 +46,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
@@ -60,6 +63,8 @@ import { DatePipe } from '@angular/common';
     UserViewComponent,
     FeedComponent,
     UserSearchComponent,
+    CreatePostComponent,
+    FollowingControlComponent,
 
   ],
   imports: [

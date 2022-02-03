@@ -1,3 +1,5 @@
+import {Following} from "./following.model";
+
 export class PublicUser {
   constructor(
     public id: string,
@@ -8,5 +10,7 @@ export class PublicUser {
     public biography: string,
 
     public isPrivate: boolean,
+
+    public followingData: Following
   ) {}
 }

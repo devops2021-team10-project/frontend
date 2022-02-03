@@ -3,6 +3,8 @@ import {Component, OnInit} from '@angular/core';
 import {User} from "../../models/user.model";
 import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
+import {FollowingService} from "../../services/following.service";
+
 import {ActivatedRoute} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
@@ -17,6 +19,9 @@ import {CommentWithUsers} from "../../models/comment-with-users.model";
 import { DomSanitizer } from '@angular/platform-browser';
 
 import format from 'date-fns/format';
+import {ChangeIsLikedModel} from "../../models/change-is-liked.model";
+import {ChangeIsDislikedModel} from "../../models/change-is-disliked.model";
+import {CreateNewCommentModel} from "../../models/create-new-comment.model";
 
 
 
@@ -26,6 +31,9 @@ import format from 'date-fns/format';
   styleUrls: ['./user-view.component.css']
 })
 export class UserViewComponent implements OnInit {
+  // @ts-ignore
+  authUser: User | undefined;
+
   // @ts-ignore
   userObj: PublicUser = {
      id: "",
@@ -38,11 +46,13 @@ export class UserViewComponent implements OnInit {
   // @ts-ignore
   usernameParam: string = null;
   isMe: boolean = false;
+  isLocked: boolean = false;
 
   // @ts-ignore
   isFollowed: boolean = false;
   isMuted: boolean = false;
   isBlocked: boolean = false;
+
 
   // @ts-ignore
   posts: PostWithUsers[] = [];
@@ -51,6 +61,7 @@ export class UserViewComponent implements OnInit {
     private userService: UserService,
     private postService: PostService,
     private authService: AuthService,
+    private followingService: FollowingService,
     public activeRoute: ActivatedRoute,
     private tService: ToastrService,
     private sanitizer: DomSanitizer
@@ -63,28 +74,38 @@ export class UserViewComponent implements OnInit {
       this.usernameParam = params['username'];
     });
 
-    let authUser = this.authService.getCurrentUser();
+    this.authUser = this.authService.getCurrentUser();
 
-    if (authUser !== null && authUser?.username === this.usernameParam) {
+    if (this.authUser !== null && this.authUser?.username === this.usernameParam) {
       this.isMe = true;
     }
 
-    console.log("Param: " + this.usernameParam);
 
     this.userService.getPublicUserByUsername(this.usernameParam)
       .subscribe(
         async (response: PublicUser) =>  {
           this.userObj = response;
 
-          // Fetch posts after user is fetched
-          await this.getPosts();
+          if (!this.isMe && this.userObj.isPrivate) {
+            this.isLocked = true;
+          }
+
+          if (this.authUser && !this.isMe) {
+            this.isFollowed =  (this.userObj?.followingData?.isFollowing && this.userObj?.followingData.isApproved);
+            this.isMuted = this.userObj?.followingData?.isMuted;
+            this.isBlocked = this.userObj?.followingData?.isBlocked;
+          }
+
+          // Fetch posts after user is fetched and if user account is not locked
+          if (!this.isLocked) {
+            await this.getPosts();
+          }
         },
         err => {
           console.log(err);
           this.tService.warning(err.error.msg, 'Could fetch user');
         }
       );
-
   }
 
   formatDate(timestamp: string): any {
@@ -92,37 +113,84 @@ export class UserViewComponent implements OnInit {
   }
 
   onFollowClick(event: MatSlideToggleChange): void {
-    this.isFollowed = event.checked;
-
-    //TODO: connect to following service
+    if (event.checked) {
+      this.followingService
+        .follow(this.userObj.id)
+        .subscribe(
+          () => this.isFollowed = event.checked,
+          err => {
+          console.log(err);
+          this.tService.warning(err.error.msg, 'Could not follow user.');
+        });
+    } else {
+      this.followingService
+        .unfollow(this.userObj.id)
+        .subscribe(
+          () => this.isFollowed = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not unfollow user.');
+          });
+    }
   }
 
+
   onMuteClick(event: MatSlideToggleChange): void {
-    this.userService
-      .changeIsMutedProfile(this.userObj.id, event.checked)
-      .subscribe(
-        () => {
-          this.isMuted = event.checked;
-          },
-        err => {
-          console.log(err);
-          this.tService.warning(err.error.msg, 'Could not change muted status of user.');
-        }
-      );
+    if (event.checked) {
+      this.followingService
+        .mute(this.userObj.id)
+        .subscribe(
+          () => this.isMuted = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not mute user.');
+          });
+    } else {
+      this.followingService
+        .unmute(this.userObj.id)
+        .subscribe(
+          () => this.isMuted = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not unmute user.');
+          });
+    }
   }
 
   onBlockClick(event: MatSlideToggleChange): void {
-    this.userService
-      .changeIsBlockedProfile(this.userObj.id, event.checked)
+    if (event.checked) {
+      this.followingService
+        .block(this.userObj.id)
+        .subscribe(
+          () => this.isBlocked = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not block user.');
+          });
+    } else {
+      this.followingService
+        .unblock(this.userObj.id)
+        .subscribe(
+          () => this.isBlocked = event.checked,
+          err => {
+            console.log(err);
+            this.tService.warning(err.error.msg, 'Could not unblock user.');
+          });
+    }
+  }
+
+  onCreateNewComment(post: PostWithUsers, text: string): any {
+    const data = new CreateNewCommentModel(post.id, text);
+    this.postService
+      .createComment(data)
       .subscribe(
-        () => {
-          this.isBlocked = event.checked;
-          },
+        async (response: Comment) => {
+          post.comments.push(await this.makeCommentWithUsers(response));
+        },
         err => {
-          console.log(err);
-          this.tService.warning(err.error.msg, 'Could not change blocked status of user.');
-        }
-      );
+        console.log(err);
+        this.tService.warning(err.error.msg, 'Could not unblock user.');
+      });
   }
 
   async getPosts(): Promise<any> {
@@ -138,9 +206,8 @@ export class UserViewComponent implements OnInit {
               await this.getImage(post.id),
               post.hashtags,
               post.description,
-              await this.getPublicUsers(post.likedBy),
-              await this.getPublicUsers(post.dislikedBy),
-              await this.getPublicUsers(post.savedBy),
+              this.searchIdsForPostData(post.likedBy),
+              this.searchIdsForPostData(post.dislikedBy),
               await (async () => {
                 let commentsWithUsers: CommentWithUsers[] = [];
                 for (let c of post.comments) {
@@ -148,6 +215,7 @@ export class UserViewComponent implements OnInit {
                 }
                 return commentsWithUsers;
               })(),
+              "",
               post.createdAt,
               post.description
             );
@@ -175,6 +243,40 @@ export class UserViewComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustUrl(objectURL);
   }
 
+  searchIdsForPostData(likedBy: string[]): boolean {
+    if (this.authUser === null || this.isMe) {
+      return false;
+    } else {
+      return likedBy.includes(<string>this.authUser?.id);
+    }
+  }
+
+  onLikeClick(event: MatSlideToggleChange, post: PostWithUsers) {
+    const data = new ChangeIsLikedModel(post.id, event.checked);
+    this.postService
+      .changeIsLiked(data)
+      .subscribe(
+        () => post.isLiked = event.checked,
+        err => {
+          console.log(err);
+          this.tService.warning(err.error.msg, 'Could not like/unlike post.');
+        });
+
+  }
+
+  onDislikeClick(event: any, post: PostWithUsers) {
+    const data = new ChangeIsDislikedModel(post.id, event.checked);
+    this.postService
+      .changeIsDisliked(data)
+      .subscribe(
+        () => post.isDisliked = event.checked,
+        err => {
+          console.log(err);
+          this.tService.warning(err.error.msg, 'Could not dislike/undislike post.');
+        });
+
+  }
+
   async getPublicUsers(userIds: string[]): Promise<PublicUser[]> {
     let publicUsers: PublicUser[] = [];
     for (let userId of userIds) {
@@ -196,11 +298,11 @@ export class UserViewComponent implements OnInit {
   }
 
   async makeCommentWithUsers(comment: Comment): Promise<any> {
-    const publicUser = (await this.getPublicUsers([comment.authorUserId]))[0];
+    const publicUser = (await this.getPublicUsers([comment.authorId]))[0];
     return new CommentWithUsers(
       comment.id,
       publicUser,
-      comment.comment,
+      comment.text,
       comment.createdAt,
       comment.deletedAt
     );

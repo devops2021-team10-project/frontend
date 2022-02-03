@@ -7,6 +7,8 @@ import { UpdateRegularUserComponent } from "./components/update-regular-user/upd
 import {UserViewComponent} from "./components/user-view/user-view.component";
 import {FeedComponent} from "./components/feed/feed.component";
 import {UserSearchComponent} from "./components/user-search/user-search.component";
+import {CreatePostComponent} from "./components/create-post/create-post.component";
+import {FollowingControlComponent} from "./components/following-control/following-control.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'update-user', component: UpdateRegularUserComponent },
   { path: 'users/:username', component: UserViewComponent },
   { path: 'user-search', component: UserSearchComponent },
+  { path: 'create-post', component: CreatePostComponent },
+  { path: 'following-control', component: FollowingControlComponent },
 ];
 
 @NgModule({
