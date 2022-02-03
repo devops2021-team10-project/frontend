@@ -9,7 +9,7 @@
 .formHolder {
   padding: 2em;
   width: 40em;
-  text-align: center;
+  text-align: left;
 }
 
 .formField {
@@ -19,4 +19,9 @@
 
 .submit-btn {
   margin-top: 0.4em;
+}
+
+.image-desc {
+  width: 100%;
+  height: 10em;
 }

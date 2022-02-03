@@ -1,0 +1,63 @@
+<div class="jumbotron vertical-center">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        <mat-card class="basicDataHolder">
+          <h2 class="userData">{{userObj.name}}</h2>
+          <h4 class="userData"><b>{{userObj.username}}</b></h4>
+          <h4 class="userData">{{userObj.website}}</h4>
+          <h4 class="userData">{{userObj.biography}}</h4>
+        </mat-card>
+        <mat-card class="userActions" *ngIf="!this.isMe" >
+          <div class="userAction">
+            <h4>Follow</h4>
+            <mat-slide-toggle [checked]="isFollowed" (change)="onFollowClick($event)"></mat-slide-toggle>
+          </div>
+          <div class="userAction">
+            <h4>Mute</h4>
+            <mat-slide-toggle [checked]="isMuted" (change)="onMuteClick($event)"></mat-slide-toggle>
+          </div>
+          <div class="userAction">
+            <h4>Block</h4>
+            <mat-slide-toggle [checked]="isBlocked" (change)="onBlockClick($event)"></mat-slide-toggle>
+          </div>
+        </mat-card>
+        <mat-card class="userActions" *ngIf="this.isLocked" >
+          <h3>User account is private. Please follow user.</h3>
+        </mat-card>
+        <mat-card class="userPost" *ngFor="let post of this.posts">
+          <h3 class="userData"><b>{{post.authorUser.username}}</b></h3>
+          <h5 class="userData">{{formatDate(post.createdAt)}}</h5>
+          <img class="postImage" mat-card-image [src]="post.imageInfo" alt="Photo">
+          <h4 class="userData">{{post.description}}</h4>
+          <br>
+          <mat-card class="userLikeDislike" *ngIf="!this.isMe" >
+            <div class="userAction">
+              <h4>Like</h4>
+              <mat-slide-toggle [checked]="post.isLiked" (change)="onLikeClick($event, post)"></mat-slide-toggle>
+            </div>
+            <div class="userAction">
+              <h4>Dislike</h4>
+              <mat-slide-toggle [checked]="post.isDisliked" (change)="onDislikeClick($event, post)"></mat-slide-toggle>
+            </div>
+          </mat-card>
+          <br>
+          <h3><b>Comments</b></h3>
+          <mat-card class="userComment" *ngFor="let comment of post.comments" >
+            <h3 class="userData"><b>{{comment.authorUser.username}}</b></h3>
+            <h5 class="userData">{{formatDate(comment.createdAt)}}</h5>
+            <h5 class="userData">{{comment.text}}</h5>
+          </mat-card>
+          <mat-card class="userComment" *ngIf="this.authUser !== null && this.authUser !== undefined" >
+            <h4>New comment</h4>
+            <div>
+              <textarea [(ngModel)]="post.newComment" class="commentInput"> </textarea>
+            </div>
+            <br>
+            <button class="submit-btn" mat-raised-button (click)="onCreateNewComment(post, post.newComment)"> Post it </button>
+          </mat-card>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

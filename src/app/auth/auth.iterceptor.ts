@@ -13,18 +13,20 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = sessionStorage.getItem('accessToken');
-    if (token != null) {
+    if (token !== null) {
       const clonedReq = request.clone({
         headers: request.headers.set('Authorization', 'Bearer ' + token)
       });
-      return next.handle(clonedReq).pipe(
-        tap(
-          succ => { },
-          err => {
-            sessionStorage.removeItem('accessToken');
-          }
-        )
-      );
+      return next.handle(clonedReq);
+      // return next.handle(clonedReq).pipe(
+      //   tap(
+      //     succ => { },
+      //     err => {
+      //       sessionStorage.removeItem('accessToken');
+      //       console.log("Bad token in front.");
+      //     }
+      //   )
+      // );
     }
     return next.handle(request);
   }

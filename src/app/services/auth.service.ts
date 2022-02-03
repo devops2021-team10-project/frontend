@@ -16,11 +16,25 @@ export class AuthService {
       username,
       password,
     };
-    return this.httpClient.post('/auth/regular-user/login', user);
+    return this.httpClient.post('/api/v1/auth/public/regularUserLogin', user);
   }
 
   getAuthUser(): Observable<any> {
-    return this.httpClient.get('/auth/regular-user/get-auth');
+    return this.httpClient.get('/api/v1/auth/findByJWTHeader');
+  }
+
+  getAndSaveAuthenticatedUser(): void {
+    this.getAuthUser()
+      .subscribe(
+        (response: User) => {
+          sessionStorage.setItem('authUser', JSON.stringify(response));
+          console.log("User set in storage:");
+          console.log(response);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   getCurrentUser(): User | undefined {
@@ -39,5 +53,10 @@ export class AuthService {
       return false;
     }
     return !jwtHelper.isTokenExpired(token);
+  }
+
+  logout(): void {
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('authUser');
   }
 }

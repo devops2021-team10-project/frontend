@@ -1,0 +1,71 @@
+<div class="jumbotron vertical-center">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        <mat-card class="formHolder">
+          <h2>Search users</h2>
+          <form (ngSubmit)="onSearch()" [formGroup]="searchForm">
+            <mat-form-field class="formField">
+              <mat-label>Search</mat-label>
+              <label>
+                <input matInput type="text" formControlName="search" required />
+              </label>
+              <mat-error
+                *ngIf="searchForm.controls['search'].hasError('required')"
+              >
+                Search is required.
+              </mat-error>
+              <mat-error
+                *ngIf="searchForm.controls['search'].hasError('minlength')"
+              >
+                Search should contain at least 4 characters
+              </mat-error>
+            </mat-form-field>
+
+
+            <button
+              class="submit-btn"
+              mat-raised-button
+              type="submit"
+              [disabled]="false"
+            >
+              Search
+            </button>
+          </form>
+          <table mat-table [dataSource]="dataSource">
+            <!-- name Column -->
+            <ng-container matColumnDef="name" class="table-row">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">
+               {{ element.name }}
+              </td>
+            </ng-container>
+
+            <!-- last commit Column -->
+            <ng-container matColumnDef="username" class="table-row">
+              <th mat-header-cell *matHeaderCellDef>Username</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.username}}
+              </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action" class="table-row">
+              <th mat-header-cell *matHeaderCellDef>View</th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button aria-label="Action" (click)="viewUser(element.username)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
