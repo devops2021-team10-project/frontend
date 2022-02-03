@@ -20,6 +20,7 @@ import { FeedComponent } from './components/feed/feed.component';
 import { UserSearchComponent } from './components/user-search/user-search.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { FollowingControlComponent } from './components/following-control/following-control.component';
+import { ViewLikedDislikedComponent } from './components/view-liked-disliked/view-liked-disliked.component';
 
 
 
@@ -52,7 +53,6 @@ import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +65,7 @@ import { DatePipe } from '@angular/common';
     UserSearchComponent,
     CreatePostComponent,
     FollowingControlComponent,
+    ViewLikedDislikedComponent,
 
   ],
   imports: [

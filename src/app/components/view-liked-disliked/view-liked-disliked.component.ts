@@ -25,16 +25,17 @@ import {CreateNewCommentModel} from "../../models/create-new-comment.model";
 
 
 @Component({
-  selector: 'app-feed',
-  templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.css']
+  selector: 'app-view-liked-disliked',
+  templateUrl: './view-liked-disliked.component.html',
+  styleUrls: ['./view-liked-disliked.component.css']
 })
-export class FeedComponent implements OnInit {
+export class ViewLikedDislikedComponent implements OnInit {
 
 
   // @ts-ignore
   showFeed: boolean;
   authUser: User | undefined;
+  showLiked: boolean = true;
 
   // @ts-ignore
   posts: PostWithUsers[] = [];
@@ -54,12 +55,22 @@ export class FeedComponent implements OnInit {
 
     if (this.authUser !== undefined && this.authUser !== null) {
       this.showFeed = true;
-      this.getPosts();
+      this.getLikedPosts();
     }
   }
 
   formatDate(timestamp: string): any {
     return format(new Date(timestamp), "dd.MM.yyyy. HH:mm");
+  }
+
+  onShowLiked(event: any): void {
+    if (event.checked) {
+      this.getLikedPosts();
+      this.showLiked = true;
+    } else {
+      this.getDislikedPosts();
+      this.showLiked = false;
+    }
   }
 
 
@@ -77,9 +88,47 @@ export class FeedComponent implements OnInit {
         });
   }
 
-  async getPosts(): Promise<any> {
+  async getLikedPosts(): Promise<any> {
     this.postService
-      .getFeed()
+      .getLiked()
+      .subscribe(
+        async (response: Post[]) => {
+          let postsWithUsers: PostWithUsers[] = [];
+          for (let post of response) {
+            let postWithUsers = new PostWithUsers(
+              post.id,
+              (await this.getPublicUsers([post.authorUserId]))[0],
+              await this.getImage(post.id),
+              post.hashtags,
+              post.description,
+              this.searchIdsForPostData(post.likedBy),
+              this.searchIdsForPostData(post.dislikedBy),
+              await (async () => {
+                let commentsWithUsers: CommentWithUsers[] = [];
+                for (let c of post.comments) {
+                  commentsWithUsers.push(await this.makeCommentWithUsers(c));
+                }
+                return commentsWithUsers;
+              })(),
+              "",
+              post.createdAt,
+              post.description
+            );
+            postsWithUsers.push(postWithUsers);
+          }
+
+          this.posts = postsWithUsers;
+        },
+        err => {
+          console.log(err);
+          this.tService.warning(err.error.msg, 'Could not load posts.');
+        }
+      );
+  }
+
+  async getDislikedPosts(): Promise<any> {
+    this.postService
+      .getUnliked()
       .subscribe(
         async (response: Post[]) => {
           let postsWithUsers: PostWithUsers[] = [];

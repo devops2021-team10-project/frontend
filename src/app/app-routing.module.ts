@@ -9,6 +9,7 @@ import {FeedComponent} from "./components/feed/feed.component";
 import {UserSearchComponent} from "./components/user-search/user-search.component";
 import {CreatePostComponent} from "./components/create-post/create-post.component";
 import {FollowingControlComponent} from "./components/following-control/following-control.component";
+import {ViewLikedDislikedComponent} from "./components/view-liked-disliked/view-liked-disliked.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'user-search', component: UserSearchComponent },
   { path: 'create-post', component: CreatePostComponent },
   { path: 'following-control', component: FollowingControlComponent },
+  { path: 'liked-disliked', component: ViewLikedDislikedComponent }
 ];
 
 @NgModule({

@@ -14,6 +14,18 @@ export class PostService {
   constructor(private httpClient: HttpClient) {
   }
 
+  getFeed(): Observable<any> {
+    return this.httpClient.get('/api/v1/post/feed');
+  }
+
+  getLiked(): Observable<any> {
+    return this.httpClient.get('/api/v1/post/allILike');
+  }
+
+  getUnliked(): Observable<any> {
+    return this.httpClient.get('/api/v1/post/allIDislike');
+  }
+
   getPostsByUserId(userId: string): Observable<any> {
     return this.httpClient.get('/api/v1/post/allByUser/' + userId);
   }

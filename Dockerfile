@@ -6,8 +6,7 @@ COPY ./package.json ./package.json
 RUN npm install
 # Copy code
 COPY ./ ./
-RUN npm install
-RUN npm run build
+RUN npm run build --prod
 
 
 #stage 2

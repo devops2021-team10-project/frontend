@@ -46,6 +46,9 @@ export class CreatePostComponent implements OnInit {
     console.log(this.description);
 
     let hashtags = this.description.match(/#[_a-zA-Z][_a-zA-Z0-9]{0,100}/gm);
+    if (hashtags === undefined || hashtags === null) {
+      hashtags = [];
+    }
     console.log("hashtags: ");
     console.log(hashtags)
     // @ts-ignore

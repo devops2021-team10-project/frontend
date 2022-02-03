@@ -2,6 +2,10 @@
   <div class="container">
     <div class="row justify-content-md-center">
       <div class="col-4" *ngIf="showFeed">
+        <div class="userAction">
+          <h4>Disliked/Liked</h4>
+          <mat-slide-toggle [checked]="showLiked" (change)="onShowLiked($event)"></mat-slide-toggle>
+        </div>
         <mat-card class="userPost" *ngFor="let post of this.posts">
           <h3 class="userData"><b>{{post.authorUser.username}}</b></h3>
           <h5 class="userData">{{formatDate(post.createdAt)}}</h5>
@@ -38,3 +42,4 @@
     </div>
   </div>
 </div>
+
